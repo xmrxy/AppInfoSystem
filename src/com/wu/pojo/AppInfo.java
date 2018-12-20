@@ -13,6 +13,7 @@ public class AppInfo {
     private Integer statusId;
     private String valueNameStatus;
     private Integer downloads;
+    private Integer versionId;
     private String versionNo;
 
     public AppInfo() {
@@ -31,6 +32,14 @@ public class AppInfo {
         this.valueNameStatus = valueNameStatus;
         this.downloads = downloads;
         this.versionNo = versionNo;
+    }
+
+    public Integer getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(Integer versionId) {
+        this.versionId = versionId;
     }
 
     public Integer getId() {

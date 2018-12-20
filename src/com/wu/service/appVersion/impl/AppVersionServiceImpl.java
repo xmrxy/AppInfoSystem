@@ -19,4 +19,9 @@ public class AppVersionServiceImpl implements AppVersionService {
     public List<AppVersion> findAppVersionList(Integer appId) {
         return appVersionMapper.AppVersionList(appId);
     }
+
+    @Override
+    public int addAppVersion(AppVersion appVersion) {
+        return appVersionMapper.addAppVersion(appVersion);
+    }
 }

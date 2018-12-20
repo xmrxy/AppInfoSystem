@@ -19,9 +19,9 @@ function delfile(id){
 	});  
 }
 
-$(function(){  
+$(function(){
 	$("#back").on("click",function(){
-		window.location.href = "list";
+		window.location.href = "/dev/appList.html";
 	});
 	
 	//上传APK文件---------------------

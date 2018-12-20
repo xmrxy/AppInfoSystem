@@ -1,5 +1,7 @@
 package com.wu.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -20,7 +22,6 @@ public class AppVersion {
 	private String appName;//APP软件名称
 	private String publishStatusName;//发布状态名称
 	private String apkFileName;//上传的apk文件名称
-	
 	public String getApkFileName() {
 		return apkFileName;
 	}
@@ -110,5 +111,26 @@ public class AppVersion {
 	}
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+
+	@Override
+	public String toString() {
+		return "AppVersion{" +
+				"id=" + id +
+				", appId=" + appId +
+				", versionNo='" + versionNo + '\'' +
+				", versionInfo='" + versionInfo + '\'' +
+				", publishStatus=" + publishStatus +
+				", downloadLink='" + downloadLink + '\'' +
+				", versionSize=" + versionSize +
+				", createdBy=" + createdBy +
+				", creationDate=" + creationDate +
+				", modifyBy=" + modifyBy +
+				", modifyDate=" + modifyDate +
+				", apkLocPath='" + apkLocPath + '\'' +
+				", appName='" + appName + '\'' +
+				", publishStatusName='" + publishStatusName + '\'' +
+				", apkFileName='" + apkFileName + '\'' +
+				'}';
 	}
 }

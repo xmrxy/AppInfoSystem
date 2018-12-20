@@ -95,7 +95,6 @@ public class DevController {
     public String addAppInfoToo(AppInfoToo appInfoToo,
                                 @RequestParam(value = "a_logoPicPath") MultipartFile attach,
                                 Model model, HttpServletRequest request){
-        System.out.println("表单传来的信息"+appInfoToo);
         //实现文件上传
         if(!attach.isEmpty()){
             //定义上传路径
@@ -141,7 +140,7 @@ public class DevController {
         }
         int i = appInfoTooService.addAppInfoToo(appInfoToo);
         if (i>0){
-            return "redirect:/dev//appList.html";
+            return "redirect:/dev/appList.html";
         }else {
             request.setAttribute("msg","添加APP失败");
             return "/dev/appinfoadd";

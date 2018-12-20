@@ -13,4 +13,12 @@ public interface AppVersionMapper {
      * @return
      */
    List<AppVersion> AppVersionList(@Param("appId") Integer appId);
+
+
+    /**
+     * 增加版本
+     * @param appVersion
+     * @return
+     */
+   int addAppVersion(AppVersion appVersion);
 }

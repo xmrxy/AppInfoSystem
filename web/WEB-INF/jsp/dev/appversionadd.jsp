@@ -65,7 +65,7 @@
 									<td>
 									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
 									</td>
-									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -84,10 +84,11 @@
         </div>
         <div class="x_content" style="display: block;">
          <br>
-        <form class="form-horizontal form-label-left" action="addversionsave" method="post" enctype="multipart/form-data">
-           <input type="hidden" name="appId" name="appId" value="${appVersion.appId}">
+        <form class="form-horizontal form-label-left" action="/appVersion/doAppVersion.html" method="post" enctype="multipart/form-data">
+           <input type="hidden"  name="appId" value="${appVersion}">
+            <input type="hidden" name="createdBy" value="${devUser.id}">
           <div class="item form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="versionNo">版本号 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="versionNo" class="form-control col-md-7 col-xs-12" 
@@ -96,7 +97,7 @@
             </div>
           </div>
           <div class="item form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">版本大小 <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="versionSize">版本大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="number" id="versionSize" name="versionSize"  required="required"
@@ -105,14 +106,14 @@
           </div>
        
           <div class="item form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">发布状态 <span class="required">*</span></label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="publishStatus">发布状态 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="hidden" name="publishStatus" id="publishStatus" value="3">预发布
             </div>
           </div>
         
           <div class="item form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">版本简介 <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="versionInfo">版本简介 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <textarea id="versionInfo" name="versionInfo" required="required"
@@ -120,7 +121,7 @@
             </div>
           </div>
            <div class="item form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">apk文件 <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_downloadLink">apk文件 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
             <input type="file" class="form-control col-md-7 col-xs-12" name="a_downloadLink" id="a_downloadLink"  required="required"/>
@@ -128,6 +129,7 @@
             </div>
           </div>
           <div class="ln_solid"></div>
+            <div style="color: red">${msg}</div>
           <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
               <button id="send" type="submit" class="btn btn-success">保存</button>

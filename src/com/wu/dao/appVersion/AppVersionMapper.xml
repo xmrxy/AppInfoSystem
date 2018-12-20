@@ -18,10 +18,19 @@
         <result property="apkLocPath" column="apkLocPath"/>
         <result property="apkFileName" column="apkFileName"/>
         <result property="appName" column="softwareName"/>
+        <result property="publishStatusName" column="valueName"/>
     </resultMap>
     <select id="AppVersionList" resultMap="getAppVersionList">
-      SELECT ai.`softwareName`,av.* FROM `app_version` AS av,`app_info` AS ai WHERE ai.`id`=av.`appId` AND appId=#{appId}
+       SELECT ai.`softwareName`,av.*,ptn.valueName FROM `app_version` AS av,`app_info` AS ai,
+      (SELECT dd.`valueId`,dd.valueName FROM `data_dictionary` AS dd WHERE dd.`typeCode`='PUBLISH_STATUS') AS ptn
+       WHERE ai.`id`=av.`appId` AND ptn.valueId= av.`publishStatus` AND appId=#{appId} ORDER BY creationDate DESC;
     </select>
 
+    <update id="addAppVersion" parameterType="appVersion">
+        INSERT INTO `app_version` (`appId`,`versionNo`,`versionInfo`,`publishStatus`,
+        `downloadLink`,`versionSize`,`createdBy`,`creationDate`,`apkLocPath`,`apkFileName`)
+        VALUES(#{appId},#{versionNo},#{versionInfo},#{publishStatus},#{downloadLink},
+        #{versionSize},#{createdBy},NOW(),#{apkLocPath},#{apkFileName})
+    </update>
 
 </mapper>

@@ -225,7 +225,7 @@
                                                            data-original-title="新增APP版本信息">新增版本</a>
                                                     </li>
                                                     <li><a class="modifyVersion"
-                                                           appinfoid="${appInfo.id }" versionid="${appInfo.versionNo }"
+                                                           appinfoid="${appInfo.id }" versionid="${appInfo.versionId }"
                                                            status="${appInfo.statusId }"
                                                            statusname="${appInfo.valueNameStatus }"
                                                            data-toggle="tooltip" data-placement="top" title=""

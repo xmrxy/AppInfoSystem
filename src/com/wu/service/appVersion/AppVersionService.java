@@ -12,4 +12,11 @@ public interface AppVersionService {
      * @return
      */
    List<AppVersion> findAppVersionList(Integer appId);
+
+    /**
+     * 增加版本
+     * @param appVersion
+     * @return
+     */
+    int addAppVersion(AppVersion appVersion);
 }

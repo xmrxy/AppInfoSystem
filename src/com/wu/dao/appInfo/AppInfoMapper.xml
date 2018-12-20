@@ -15,10 +15,11 @@
         <result property="statusId" column="valueId"/>
         <result property="valueNameStatus" column="status"/>
         <result property="versionNo" column="versionNo"/>
+        <result property="versionId" column="versionId"/>
     </resultMap>
 
     <select id="getAppInfo" resultMap="appInfo">
-       SELECT ai.id,ai.`softwareName`,ai.`APKName`,ai.`softwareSize`,dd.`valueName` as pingtai,ac.`categoryName` AS categoryName1,ac2.`categoryName` AS categoryName2,ac3.`categoryName` AS categoryName3,ddi.valueId,ddi.valueName as `status` ,ai.`downloads`,aiv.versionNo
+       SELECT ai.id,ai.`softwareName`,ai.`APKName`,ai.`softwareSize`,dd.`valueName` as pingtai,ac.`categoryName` AS categoryName1,ac2.`categoryName` AS categoryName2,ac3.`categoryName` AS categoryName3,ddi.valueId,ddi.valueName as `status` ,ai.`downloads`,ai.`versionId`,aiv.versionNo
        FROM `app_info` ai,(SELECT dd.`valueId`,dd.`valueName` FROM `data_dictionary` dd WHERE dd.`typeCode`='APP_FLATFORM') AS dd,`app_category` ac,(SELECT ac.`id`,ac.`categoryName` FROM `app_category` ac ) AS ac2,(SELECT ac.`id`,ac.`categoryName` FROM `app_category` ac ) AS ac3,(SELECT ad.`valueId`,ad.`valueName`  FROM `data_dictionary` ad WHERE typeCode='APP_STATUS') AS ddi,
        (SELECT ai.id,av.`versionNo` FROM `app_info` ai LEFT JOIN `app_version` av ON ai.`versionId`=av.`id`) AS aiv
        WHERE ai.`flatformId`=dd.valueId AND ai.`categoryLevel1`=ac.`id`
