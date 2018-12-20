@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wu.dao.dictionary.PingTaiMapper">
+    <resultMap id="getPingTaiList" type="pingTai">
+        <result property="valueId" column="valueId"/>
+        <result property="valueName" column="valueName"/>
+    </resultMap>
+    <select id="getPingTaiInfo" resultMap="getPingTaiList">
+        SELECT dd.`valueId`,dd.`valueName` FROM `data_dictionary` dd WHERE dd.`typeCode`='APP_FLATFORM'
+    </select>
+</mapper>

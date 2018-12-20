@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" contentType="text/html; charset=UTF-8">
 <!-- Meta, title, CSS, favicons, etc. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +27,7 @@
 	<link href="${pageContext.request.contextPath }/statics/css/dropzone.min.css" rel="stylesheet">
 	<!-- Custom Theme Style -->
 	<link href="${pageContext.request.contextPath }/statics/css/custom.min.css"	rel="stylesheet">
-	
+
 	<!-- add localcss 2016-8-18 -->
 	<link href='${pageContext.request.contextPath }/statics/localcss/appinfoadd.css' rel='stylesheet'>
 	<link href='${pageContext.request.contextPath }/statics/localcss/appinfolist.css' rel='stylesheet'>
@@ -81,7 +80,7 @@
 										class="fa fa-chevron-down"></span>
 								</a>
 									<ul class="nav child_menu">
-										<li><a href="${pageContext.request.contextPath }/dev/appList.html">APP维护</a>
+										<li><a href="/dev/appList.html">APP维护</a>
 										</li>
 									</ul></li>
 							</ul>

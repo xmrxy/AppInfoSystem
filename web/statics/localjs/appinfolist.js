@@ -1,10 +1,75 @@
+$(function () {
+    //获取分类
+    $.ajax({
+		url:"/category/categoryList.json",
+		type:"get",
+		data:{parentId:0},
+		dataType:"json",
+		success:function (data) {
+            $("#queryCategoryLevel1").html("");
+            var options1 = "<option value=\"\">--请选择--</option>";
+            var options2;
+            $("#queryCategoryLevel1").append(options1)
+			$.each(data,function (index, category) {
+                options2 = "<option value=\""+category.id+"\">"+category.categoryName+"</option>"
+                $("#queryCategoryLevel1").append(options2);
+            });
+        },
+		error:function (data) {
+			alert("加载一级分类错误！")
+        }
+    })
+
+    //获取平台信息
+    $.ajax({
+        url:"/pingTai/pingTaiList.json",
+        type:"get",
+        dataType:"json",
+        success:function (data) {
+            $("#queryFlatformId").html("");
+            var options1 = "<option value=\"\">--请选择--</option>";
+            var options2;
+            $("#queryFlatformId").append(options1)
+            $.each(data,function (index, status) {
+                options2 = "<option value=\""+status.valueId+"\">"+status.valueName+"</option>"
+                $("#queryFlatformId").append(options2)
+            })
+        },
+        error:function (data) {
+            alert("加载所属平台错误！")
+        }
+    })
+
+	//获取App状态
+    $.ajax({
+        url:"/appStatus/appStatusList.json",
+        type:"get",
+        dataType:"json",
+        success:function (data) {
+            $("#queryStatus").html("");
+            var options1 = "<option value=\"\">--请选择--</option>";
+            var options2;
+            $("#queryStatus").append(options1)
+            $.each(data,function (index, status) {
+                options2 = "<option value=\""+status.valueId+"\">"+status.valueName+"</option>"
+                $("#queryStatus").append(options2);
+            })
+        },
+        error:function (data) {
+            alert("加载一级分类错误！")
+        }
+    })
+
+
+})
+
 $("#queryCategoryLevel1").change(function(){
 	var queryCategoryLevel1 = $("#queryCategoryLevel1").val();
 	if(queryCategoryLevel1 != '' && queryCategoryLevel1 != null){
 		$.ajax({
 			type:"GET",//请求类型
-			url:"categorylevellist.json",//请求的url
-			data:{pid:queryCategoryLevel1},//请求参数
+			url:"/category/categoryList.json",//请求的url
+			data:{parentId:queryCategoryLevel1},//请求参数
 			dataType:"json",//ajax接口（请求url）返回的数据类型
 			success:function(data){//data：返回数据（json对象）
 				$("#queryCategoryLevel2").html("");
@@ -33,8 +98,8 @@ $("#queryCategoryLevel2").change(function(){
 	if(queryCategoryLevel2 != '' && queryCategoryLevel2 != null){
 		$.ajax({
 			type:"GET",//请求类型
-			url:"categorylevellist.json",//请求的url
-			data:{pid:queryCategoryLevel2},//请求参数
+			url:"/category/categoryList.json",//请求的url
+			data:{parentId:queryCategoryLevel2},//请求参数
 			dataType:"json",//ajax接口（请求url）返回的数据类型
 			success:function(data){//data：返回数据（json对象）
 				$("#queryCategoryLevel3").html("");
@@ -60,7 +125,7 @@ $("#queryCategoryLevel2").change(function(){
 
 $(".addVersion").on("click",function(){
 	var obj = $(this);
-	window.location.href="appversionadd?id="+obj.attr("appinfoid");
+	window.location.href="/appVersion/addVersion.html/"+obj.attr("appinfoid");
 });
 $(".modifyVersion").on("click",function(){
 	var obj = $(this);

@@ -46,16 +46,17 @@
 
     <!--配置多视图解析器-->
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="favorParameter" value="true"/>
+        <property name="defaultContentType" value="text/html" />
         <property name="mediaTypes">
             <map>
-                <entry key="atom" value="application/atom+xml"/>
-                <entry key="html" value="text/html"/>
-                <entry key="json" value="application/json"/>
+                <entry key="html" value="text/html; charset=UTF-8"/>
+                <entry key="json" value="application/json; charset=UTF-8"/>
+                <entry key="xml" value="application/xml; charset=UTF-8"/>
             </map>
         </property>
         <property name="viewResolvers">
             <list>
-                <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
                 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
                     <property name="prefix" value="/WEB-INF/jsp/"/>
                     <property name="suffix" value=".jsp"/>
@@ -72,5 +73,12 @@
             <bean class="com.wu.interceptor.SysInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
+
+    <!--文件上传-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxInMemorySize" value="5000000"/>
+    </bean>
 
 </beans>

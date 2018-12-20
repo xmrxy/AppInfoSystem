@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wu.dao.appInfo.AppInfoMapper">
+    <resultMap id="appInfo" type="appInfo">
+        <id property="id" column="id"/>
+        <result property="softwareName" column="softwareName"/>
+        <result property="APKName" column="APKName"/>
+        <result property="softwareSize" column="softwareSize"/>
+        <result property="valueNamePingTai" column="pingtai"/>
+        <result property="categoryName1" column="categoryName1"/>
+        <result property="softwareName2" column="softwareName2"/>
+        <result property="softwareName3" column="softwareName3"/>
+        <result property="statusId" column="valueId"/>
+        <result property="valueNameStatus" column="status"/>
+        <result property="versionNo" column="versionNo"/>
+    </resultMap>
+
+    <select id="getAppInfo" resultMap="appInfo">
+       SELECT ai.id,ai.`softwareName`,ai.`APKName`,ai.`softwareSize`,dd.`valueName` as pingtai,ac.`categoryName` AS categoryName1,ac2.`categoryName` AS categoryName2,ac3.`categoryName` AS categoryName3,ddi.valueId,ddi.valueName as `status` ,ai.`downloads`,aiv.versionNo
+       FROM `app_info` ai,(SELECT dd.`valueId`,dd.`valueName` FROM `data_dictionary` dd WHERE dd.`typeCode`='APP_FLATFORM') AS dd,`app_category` ac,(SELECT ac.`id`,ac.`categoryName` FROM `app_category` ac ) AS ac2,(SELECT ac.`id`,ac.`categoryName` FROM `app_category` ac ) AS ac3,(SELECT ad.`valueId`,ad.`valueName`  FROM `data_dictionary` ad WHERE typeCode='APP_STATUS') AS ddi,
+       (SELECT ai.id,av.`versionNo` FROM `app_info` ai LEFT JOIN `app_version` av ON ai.`versionId`=av.`id`) AS aiv
+       WHERE ai.`flatformId`=dd.valueId AND ai.`categoryLevel1`=ac.`id`
+       AND ai.`categoryLevel2`=ac2.id AND ai.`categoryLevel3`=ac3.id AND ai.`status`=ddi.valueId  AND aiv.id=ai.`id`
+       <trim>
+           <if test="softwareName!=null and softwareName!=''">
+              and ai.`softwareName` like concat('%',#{softwareName},'%')</if>
+           <if test="APKName!=null and APKName!=''">
+               and ai.`APKName` like concat('%',#{APKName},'%')
+           </if>
+           <if test="softwareSize!=null and softwareSize!=''">
+               and ai.`softwareSize`=#{softwareSize}
+           </if>
+           <if test="valueNamePingTai!=null and valueNamePingTai!=''">
+               and dd.valueId=#{valueNamePingTai}
+           </if>
+           <if test="categoryName1!=null and categoryName1!=''">
+               and ac.id =#{categoryName1}
+           </if>
+           <if test="categoryName2!=null and categoryName2!=''">
+               and ac2.id=#{categoryName2}
+           </if>
+           <if test="categoryName3!=null and categoryName3!=''">
+               and ac3.id=#{categoryName3}
+           </if>
+           <if test="valueNameStatus!=null and valueNameStatus!=''">
+               and ddi.valueId =#{valueNameStatus}
+           </if>
+           <if test="downloads!=null and downloads!=''">
+               and ai.`downloads`=#{downloads}
+           </if>
+           <if test="versionId!=null and versionId!=''">
+               and ai.`versionId`=#{versionId}
+           </if>
+       </trim>
+        ORDER BY ai.`creationDate` DESC limit #{startRow},#{pageSize}
+    </select>
+
+    <select id="getAppInfoCount" resultType="Integer">
+      SELECT COUNT(1) FROM
+      `app_info` ai,(SELECT dd.`valueId`,dd.`valueName` FROM `data_dictionary` dd WHERE dd.`typeCode`='APP_FLATFORM') AS dd,
+      `app_category` ac,(SELECT ac.`id`,ac.`categoryName` FROM `app_category` ac ) AS ac2,(SELECT ac.`id`,ac.`categoryName` FROM `app_category` ac ) AS ac3,
+      (SELECT ad.`valueId`,ad.`valueName`  FROM `data_dictionary` ad WHERE typeCode='APP_STATUS') AS ddi
+      WHERE ai.`flatformId`=dd.valueId AND ai.`categoryLevel1`=ac.`id`
+      AND ai.`categoryLevel2`=ac2.id AND ai.`categoryLevel3`=ac3.id AND ai.`status`=ddi.valueId
+        <trim>
+            <if test="softwareName!=null and softwareName!=''">
+                and ai.`softwareName` like concat('%',#{softwareName},'%')</if>
+            <if test="APKName!=null and APKName!=''">
+                and ai.`APKName` like concat('%',#{APKName},'%')
+            </if>
+            <if test="softwareSize!=null and softwareSize!=''">
+                and ai.`softwareSize`=#{softwareSize}
+            </if>
+            <if test="valueNamePingTai!=null and valueNamePingTai!=''">
+                and ai.`softwareSize` like concat('%',#{softwareSize},'%')
+            </if>
+            <if test="categoryName1!=null and categoryName1!=''">
+                and ac.`categoryName` like concat('%',#{categoryName1},'%')
+            </if>
+            <if test="categoryName2!=null and categoryName2!=''">
+                and ac2.`categoryName` like concat('%',#{categoryName2},'%')
+            </if>
+            <if test="categoryName3!=null and categoryName3!=''">
+                and ac3.`categoryName` like concat('%',#{categoryName3},'%')
+            </if>
+            <if test="valueNameStatus!=null and valueNameStatus!=''">
+                and ddi.valueName like concat('%',#{valueNameStatus},'%')
+            </if>
+            <if test="downloads!=null and downloads!=''">
+                and ai.`downloads`=#{downloads}
+            </if>
+            <if test="versionId!=null and versionId!=''">
+                and ai.`versionId`=#{versionId}
+            </if>
+        </trim>
+    </select>
+</mapper>

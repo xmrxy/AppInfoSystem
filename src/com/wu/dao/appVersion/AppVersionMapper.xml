@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wu.dao.appVersion.AppVersionMapper">
+    <resultMap id="getAppVersionList" type="appVersion">
+        <id property="id" column="id"/>
+        <result property="appId" column="appId"/>
+        <result property="versionNo" column="versionNo"/>
+        <result property="versionInfo" column="versionInfo"/>
+        <result property="publishStatus" column="publishStatus"/>
+        <result property="downloadLink" column="downloadLink"/>
+        <result property="versionSize" column="versionSize"/>
+        <result property="createdBy" column="createdBy"/>
+        <result property="creationDate" column="creationDate"/>
+        <result property="modifyBy" column="modifyBy"/>
+        <result property="modifyDate" column="modifyDate"/>
+        <result property="apkLocPath" column="apkLocPath"/>
+        <result property="apkFileName" column="apkFileName"/>
+        <result property="appName" column="softwareName"/>
+    </resultMap>
+    <select id="AppVersionList" resultMap="getAppVersionList">
+      SELECT ai.`softwareName`,av.* FROM `app_version` AS av,`app_info` AS ai WHERE ai.`id`=av.`appId` AND appId=#{appId}
+    </select>
+
+
+</mapper>
