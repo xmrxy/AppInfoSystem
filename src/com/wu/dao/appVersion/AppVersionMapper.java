@@ -21,4 +21,27 @@ public interface AppVersionMapper {
      * @return
      */
    int addAppVersion(AppVersion appVersion);
+
+
+    /**
+     * 修改版本
+     * @param appVersion
+     * @return
+     */
+   int updateAppVersion(AppVersion appVersion);
+
+    /**
+     * 根据versionid删除apk文件
+     * @param versionId
+     * @return
+     */
+   int delApk(@Param("versionId") Integer versionId);
+
+    /**
+     * 根据versionid查询版本信息
+     * @param versionId
+     * @return
+     */
+   AppVersion getOneAppVersionByVersionId(@Param("versionId") Integer versionId);
+
 }

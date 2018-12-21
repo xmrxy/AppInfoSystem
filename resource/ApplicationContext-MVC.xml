@@ -70,6 +70,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/dev/**"/>
             <mvc:mapping path="/backend/**"/>
+            <mvc:mapping path="//appVersion/**"/>
             <bean class="com.wu.interceptor.SysInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

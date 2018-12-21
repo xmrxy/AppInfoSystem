@@ -174,7 +174,7 @@
 									<td>
 									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
 									</td>
-									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

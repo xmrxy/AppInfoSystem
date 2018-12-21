@@ -16,4 +16,73 @@
       SELECT COUNT(1) FROM app_info  WHERE APKName=#{APKName};
     </select>
 
+    <update id="updateAppInfoVersion" parameterType="appVersion">
+        UPDATE `app_info` SET versionId=#{versionId} WHERE id=#{appId};
+    </update>
+
+    <update id="updateAppStatus">
+        UPDATE `app_info` SET `status`=#{appStatus}  WHERE id=#{appId}
+    </update>
+
+    <resultMap id="getAppInfo" type="appInfoToo">
+        <result property="statusName" column="status"/>
+        <result property="flatformName" column="valueName"/>
+    </resultMap>
+    <select id="getAppInfoById"  resultMap="getAppInfo">
+        SELECT ddt.valueName, dd.`valueName` AS `status`,ai.* FROM app_info AS ai,
+       (SELECT valueId,valueName FROM data_dictionary WHERE typeCode='APP_STATUS') AS dd,
+       (SELECT ddt.`valueId`, ddt.`valueName` FROM `data_dictionary` AS ddt WHERE typeCode='APP_FLATFORM') AS ddt
+        WHERE ai.`status`=dd.`valueId` AND ai.id=#{appId} AND ddt.valueId=ai.`flatformId`
+    </select>
+
+    <update id="updateAppInfo" parameterType="appInfoToo">
+        update `app_info`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="softwareName!=null and softwareName!=''">
+                softwareName=#{softwareName},
+            </if>
+            <if test="APKName!=null and APKName!=''">
+                APKName=#{APKName},
+            </if>
+            <if test="supportROM!=null and supportROM!=''">
+                supportROM=#{supportROM},
+            </if>
+            <if test="interfaceLanguage!=null and interfaceLanguage!=''">
+                interfaceLanguage=#{interfaceLanguage},
+            </if>
+            <if test="softwareSize!=null and softwareSize!=''">
+                softwareSize=#{softwareSize},
+            </if>
+            <if test="appInfo!=null and appInfo!=''">
+                appInfo=#{appInfo},
+            </if>
+            <if test="flatformId!=null and flatformId!=''">
+                flatformId=#{flatformId},
+            </if>
+            <if test="categoryLevel1!=null and categoryLevel1!=''">
+                categoryLevel1=#{categoryLevel1},
+            </if>
+            <if test="categoryLevel2!=null and categoryLevel2!=''">
+                categoryLevel2=#{categoryLevel2},
+            </if>
+            <if test="categoryLevel3!=null and categoryLevel3!=''">
+                categoryLevel3=#{categoryLevel2},
+            </if>
+            <if test="downloads!=null and downloads!=''">
+                downloads=#{downloads},
+            </if>
+            <if test="devId!=null and devId!=''">
+                modifyBy=#{devId},
+            </if>
+            modifyDate=NOW() where id=#{id}
+        </trim>
+    </update>
+
+    <update id="delApp">
+        DELETE FROM `app_info` WHERE id=#{appId}
+    </update>
+
+    <update id="delAppPicture">
+        UPDATE `app_info` SET logoPicPath=NULL,`logoLocPath`=NULL WHERE id=#{appId};
+    </update>
 </mapper>

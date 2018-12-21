@@ -22,4 +22,34 @@ public class AppInfoTooServiceImpl implements AppInfoTooService {
     public int getOneAppInfoTooCount(String APKName) {
         return appInfoTooMapper.getOneAppInfoTooCount(APKName);
     }
+
+    @Override
+    public int updateAppInfoVersion(Integer appId, Integer versionId) {
+        return appInfoTooMapper.updateAppInfoVersion(appId,versionId);
+    }
+
+    @Override
+    public int updateAppStatus(Integer appId, Integer appStatus) {
+        return appInfoTooMapper.updateAppStatus(appId,appStatus);
+    }
+
+    @Override
+    public AppInfoToo findAppInfoById(Integer appId) {
+        return appInfoTooMapper.getAppInfoById(appId);
+    }
+
+    @Override
+    public int updateAppInfo(AppInfoToo appInfoToo) {
+        return appInfoTooMapper.updateAppInfo(appInfoToo);
+    }
+
+    @Override
+    public int delApp(Integer appId) {
+        return appInfoTooMapper.delApp(appId);
+    }
+
+    @Override
+    public int delAppPicture(Integer appId) {
+        return appInfoTooMapper.delAppPicture(appId);
+    }
 }

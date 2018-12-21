@@ -1,11 +1,15 @@
 package com.wu.controller.devController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.wu.pojo.AppInfoToo;
+import com.wu.pojo.AppVersion;
 import com.wu.service.appInfo.AppInfoService;
 import com.wu.service.appInfo.AppInfoTooService;
+import com.wu.service.appVersion.AppVersionService;
 import com.wu.util.PageBean;
 import org.apache.commons.io.FilenameUtils;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +31,9 @@ import java.util.Random;
 public class DevController {
     @Resource
     private AppInfoService appInfoService;
+
+    @Resource
+    private AppVersionService appVersionService;
 
     @Resource
     private AppInfoTooService appInfoTooService;
@@ -169,5 +176,86 @@ public class DevController {
     }
 
 
+    @RequestMapping(value = "/updateAppStatus.json/{appId}/{status}")
+    @ResponseBody
+    public Object updateAppStatus(@PathVariable Integer appId,
+                                  @PathVariable String status){
+        System.out.println(appId);
+        System.out.println(status);
+        int i =-1;
+        if ("close".equals(status)){
+            i = appInfoTooService.updateAppStatus(appId, 5);
+        }else if ("open".equals(status)){
+            i = appInfoTooService.updateAppStatus(appId, 4);
+        }
+
+        Map map=new HashMap();
+        if (i > 0) {
+            map.put("errorCode","0");
+            map.put("resultMsg","success");
+            return JSONObject.toJSONString(map);
+        }
+            return null;
+    }
+
+
+    @RequestMapping(value = "/updateAppInfo.html/{appId}")
+    public String updateAppInfo(@PathVariable Integer appId,Model model){
+        AppInfoToo appInfo = appInfoTooService.findAppInfoById(appId);
+        model.addAttribute("appInfo",appInfo);
+        return "/dev/appinfomodify";
+    }
+
+    @RequestMapping(value = "/doAppSave.html")
+    public String doSaveApp(AppInfoToo appInfoToo, Model model){
+        System.out.println(appInfoToo);
+        int i = appInfoTooService.updateAppInfo(appInfoToo);
+        if (i>0){
+            return "redirect:/dev/appList.html";
+        }
+        model.addAttribute("msg","修改app失败！");
+       return "/dev/appinfomodify";
+    }
+
+    @RequestMapping(value = "/lookAppInfo.html/{appId}")
+    public String lookAppInfo(@PathVariable Integer appId,Model model){
+        AppInfoToo appInfo = appInfoTooService.findAppInfoById(appId);
+        List<AppVersion> appVersionList = appVersionService.findAppVersionList(appId);
+        model.addAttribute("appInfo",appInfo);
+        model.addAttribute("appVersionList",appVersionList);
+        return "/dev/appinfoview";
+    }
+
+    @RequestMapping(value = "delApp.json")
+    @ResponseBody
+    public String delApp(@RequestParam(value = "appId") Integer appId){
+        AppInfoToo appInfoToo = appInfoTooService.findAppInfoById(appId);
+        File file=new File(appInfoToo.getLogoLocPath());
+        System.out.println(appInfoToo.getLogoLocPath());
+        if (file.exists()&&file.isFile()){
+            file.delete();
+        }
+        int i = appInfoTooService.delApp(appId);
+        Map map=new HashMap();
+        if (i>0){
+            map.put("delResult","true");
+        }else {
+            map.put("delResult","false");
+        }
+        return JSONObject.toJSONString(map);
+    }
+
+    @RequestMapping(value = "/picture.json")
+    @ResponseBody
+    public Object delAppPicture(Integer appId){
+        int i = appInfoTooService.delAppPicture(appId);
+        Map map=new HashMap();
+        if (i>0){
+            map.put("result","success");
+        }else {
+            map.put("result","failed");
+        }
+       return JSONObject.toJSONString(map);
+    }
 
 }

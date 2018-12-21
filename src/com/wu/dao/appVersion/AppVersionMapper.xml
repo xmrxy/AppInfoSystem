@@ -33,4 +33,46 @@
         #{versionSize},#{createdBy},NOW(),#{apkLocPath},#{apkFileName})
     </update>
 
+    <update id="updateAppVersion" parameterType="appVersion">
+        UPDATE `app_version`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="appId!=null and appId!=''">
+                `appId`=#{appId},
+            </if>
+            <if test="versionNo!=null and versionNo!=''">
+                `versionNo`=#{versionNo},
+            </if>
+            <if test="versionInfo!=null and versionInfo!=''">
+                `versionInfo`=#{versionInfo},
+            </if>
+            <if test="publishStatus!=null and publishStatus!=''">
+                `publishStatus`=#{publishStatus},
+            </if>
+            <if test="downloadLink!=null and downloadLink!=''">
+                `downloadLink`=#{downloadLink},
+            </if>
+            <if test="versionSize!=null and versionSize!=''">
+                `versionSize`=#{versionSize},
+            </if>
+            <if test="apkLocPath!=null and apkLocPath!=''">
+                `apkLocPath`=#{apkLocPath},
+            </if>
+            <if test="apkFileName!=null and apkFileName!=''">
+                `apkFileName`=#{apkFileName},
+            </if>
+            <if test="modifyBy!=null and modifyBy!=''">
+                `modifyBy`=#{modifyBy},
+            </if>
+            `modifyDate`=NOW()
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <update id="delApk">
+          UPDATE`app_version` SET `downloadLink`=NULL,`apkLocPath`=NULL,`apkFileName`=NULL WHERE id=#{versionId}
+    </update>
+
+    <select id="getOneAppVersionByVersionId" resultType="appVersion">
+        select * from `app_version` where id=#{versionId}
+    </select>
 </mapper>

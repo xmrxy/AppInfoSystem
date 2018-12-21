@@ -85,6 +85,7 @@
         <div class="x_content" style="display: block;">
          <br>
         <form class="form-horizontal form-label-left" action="/appVersion/doUpdateAppSersion.html" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="modifyBy" value="${devUser.id}">
            <input type="hidden" name="id" id="id" value="${oneAppVersion.id}">
            <input type="hidden" name="appId" id="appId" value="${oneAppVersion.appId}">
           <div class="item form-group">
@@ -136,7 +137,6 @@
             </div>
           </div>
           <div class="ln_solid"></div>
-            <div style="color: green">${msg}</div>
           <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
               <button id="send" type="submit" class="btn btn-success">保存</button>

@@ -18,4 +18,44 @@ public interface AppInfoTooService {
      */
     int getOneAppInfoTooCount(String APKName);
 
+    /**
+     * 根据appid修改app最新版本
+     * @param appId
+     */
+    int updateAppInfoVersion(Integer appId,Integer versionId);
+
+    /**
+     * 根据appId修改状态
+     * @param appId
+     * @return
+     */
+    int updateAppStatus(Integer appId,Integer appStatus);
+
+    /**
+     * 根据appid查询app信息
+     * @param appId
+     * @return
+     */
+    AppInfoToo findAppInfoById(Integer appId);
+
+    /**
+     * 修改app信息
+     * @param appInfoToo
+     * @return
+     */
+    int updateAppInfo(AppInfoToo appInfoToo);
+
+    /**
+     * 删除app
+     * @param appId
+     * @return
+     */
+    int delApp(Integer appId);
+
+    /**
+     * 根据appid删除图片
+     * @param appId
+     * @return
+     */
+    int delAppPicture(Integer appId);
 }

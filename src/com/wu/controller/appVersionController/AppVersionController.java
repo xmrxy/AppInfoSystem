@@ -1,22 +1,23 @@
 package com.wu.controller.appVersionController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.wu.pojo.AppVersion;
+import com.wu.service.appInfo.AppInfoTooService;
 import com.wu.service.appVersion.AppVersionService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -25,6 +26,8 @@ public class AppVersionController {
 
     @Resource
     private AppVersionService appVersionService;
+    @Resource
+    private AppInfoTooService appInfoTooService;
 
     @RequestMapping(value = "/addVersion.html/{appinfoid}")
     public String appVersion(@PathVariable Integer appinfoid,Model model){
@@ -83,11 +86,16 @@ public class AppVersionController {
         }
         int i = appVersionService.addAppVersion(appVersion);
         if (i>0){
-            return "redirect:/appVersion/addVersion.html/"+appVersion.getAppId();
+            List<AppVersion> appVersionList = appVersionService.findAppVersionList(appVersion.getAppId());
+            int i1 = appInfoTooService.updateAppInfoVersion(appVersion.getAppId(),appVersionList.get(0).getId());
+            if (i1>0){
+                return "redirect:/dev/appList.html/";
+            }
         }else {
             request.setAttribute("msg","添加APP失败");
             return "/dev/appversionadd";
         }
+        return null;
     }
 
     @RequestMapping(value = "/updateAppVersion.html/{versionid}/{appinfoid}")
@@ -102,11 +110,33 @@ public class AppVersionController {
 
 
     @RequestMapping(value = "/doUpdateAppSersion.html")
-    public String doUpdateAppVersion(AppVersion appVersion,Model model){
-        //修改代码的编写
-
+    public String doUpdateAppVersion(AppVersion appVersion,
+                                     Model model){
+        int i = appVersionService.updateAppVersion(appVersion);
+        if (i<=0){
+            model.addAttribute("msg","修改失败！");
+        }
         model.addAttribute("msg","修改成功！");
-        return "redirect:/appVersion/updateAppVersion.html/"+appVersion.getId()+"/"+appVersion.getAppId();
+        return "redirect:/dev/appList.html";
+
+    }
+
+    @RequestMapping(value = "/delApk.json")
+    @ResponseBody
+    public Object delApk(@RequestParam(value = "versionId") Integer versionId){
+        AppVersion version = appVersionService.findOneAppVersionByVersionId(versionId);
+        File file=new File( version.getApkLocPath());
+       if (file.isFile()&& file.exists()){
+           file.delete();
+       }
+        int i = appVersionService.delApk(versionId);
+        Map map=new HashMap();
+        if (i>0){
+            map.put("result","success");
+        }else {
+            map.put("result","failed");
+        }
+        return JSONObject.toJSONString(map);
     }
 
 }
