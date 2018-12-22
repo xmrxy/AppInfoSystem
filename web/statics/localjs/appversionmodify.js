@@ -19,6 +19,26 @@ function delfile(id){
 	});  
 }
 
+function downLoad(){
+    var id = $("#appId").val();
+    $.ajax({
+		url:"/appVersion/downVersion.html/",
+		type:"get",
+		data:{appId:id},
+		dataType:"json",
+		success:function (data) {
+			if (data.result==="下载成功"){
+                alert("下载成功！")
+			}else if (data.result==="下载失败") {
+                alert("下载失败！")
+			}
+		},
+		error:function (data) {
+			alert("下载失败！")
+        }
+	})
+}
+
 $(function(){
 	$("#back").on("click",function(){
 		window.location.href = "/dev/appList.html";
@@ -32,7 +52,7 @@ $(function(){
 		$("#uploadfile").show();
 	}else{
 		$("#apkFile").append("<p>"+apkFileName+
-							"&nbsp;&nbsp;<a href=\""+downloadLink+"?m="+Math.random()+"\" >下载</a> &nbsp;&nbsp;" +
+							"&nbsp;&nbsp;<a onclick='downLoad()' href=\""+downloadLink+"?m="+Math.random()+"\" >下载</a> &nbsp;&nbsp;" +
 							"<a href=\"javascript:;\" onclick=\"delfile('"+id+"');\">删除</a></p>");
 	}
 

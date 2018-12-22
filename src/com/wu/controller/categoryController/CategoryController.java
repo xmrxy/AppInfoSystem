@@ -1,7 +1,5 @@
 package com.wu.controller.categoryController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wu.pojo.AppCategory;
 import com.wu.service.category.CategoryService;
 import com.wu.util.GetJsonUtil;

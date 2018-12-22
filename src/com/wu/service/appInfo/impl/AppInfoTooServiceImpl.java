@@ -52,4 +52,14 @@ public class AppInfoTooServiceImpl implements AppInfoTooService {
     public int delAppPicture(Integer appId) {
         return appInfoTooMapper.delAppPicture(appId);
     }
+
+    @Override
+    public int checkApp(Integer appId, Integer status) {
+        return appInfoTooMapper.checkApp(appId,status);
+    }
+
+    @Override
+    public int downLoadAppVersion(Integer appId, Integer downloads) {
+        return appInfoTooMapper.downLoadAppVersion(appId,downloads);
+    }
 }

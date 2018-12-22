@@ -29,10 +29,17 @@
         <result property="flatformName" column="valueName"/>
     </resultMap>
     <select id="getAppInfoById"  resultMap="getAppInfo">
-        SELECT ddt.valueName, dd.`valueName` AS `status`,ai.* FROM app_info AS ai,
-       (SELECT valueId,valueName FROM data_dictionary WHERE typeCode='APP_STATUS') AS dd,
-       (SELECT ddt.`valueId`, ddt.`valueName` FROM `data_dictionary` AS ddt WHERE typeCode='APP_FLATFORM') AS ddt
+        SELECT
+        ac1.categoryName AS categoryLevel1Name,ac2.categoryName AS categoryLevel2Name,ac3.categoryName AS categoryLevel3Name,
+        ddt.valueName, dd.`valueName` AS `status`,ai.* FROM
+        app_info AS ai,
+        (SELECT valueId,valueName FROM data_dictionary WHERE typeCode='APP_STATUS') AS dd,
+        (SELECT ddt.`valueId`, ddt.`valueName` FROM `data_dictionary` AS ddt WHERE typeCode='APP_FLATFORM') AS ddt,
+        (SELECT `id`, `categoryName` FROM app_category) AS ac1,
+        (SELECT `id`, `categoryName` FROM app_category) AS ac2,
+        (SELECT `id`, `categoryName` FROM app_category) AS ac3
         WHERE ai.`status`=dd.`valueId` AND ai.id=#{appId} AND ddt.valueId=ai.`flatformId`
+        and ai.`categoryLevel1`=ac1.id AND ai.`categoryLevel2`=ac2.id AND ai.`categoryLevel3`=ac3.id
     </select>
 
     <update id="updateAppInfo" parameterType="appInfoToo">
@@ -66,13 +73,19 @@
                 categoryLevel2=#{categoryLevel2},
             </if>
             <if test="categoryLevel3!=null and categoryLevel3!=''">
-                categoryLevel3=#{categoryLevel2},
+                categoryLevel3=#{categoryLevel3},
             </if>
             <if test="downloads!=null and downloads!=''">
                 downloads=#{downloads},
             </if>
             <if test="devId!=null and devId!=''">
                 modifyBy=#{devId},
+            </if>
+            <if test="logoPicPath !=null and logoPicPath !=''">
+                logoPicPath =#{logoPicPath },
+            </if>
+            <if test="logoLocPath!=null and logoLocPath!=''">
+                logoLocPath=#{logoLocPath},
             </if>
             modifyDate=NOW() where id=#{id}
         </trim>
@@ -84,5 +97,13 @@
 
     <update id="delAppPicture">
         UPDATE `app_info` SET logoPicPath=NULL,`logoLocPath`=NULL WHERE id=#{appId};
+    </update>
+
+    <update id="checkApp">
+        update  `app_info` SET status=#{status} where id=#{appId}
+    </update>
+
+    <update id="downLoadAppVersion">
+          update  `app_info` SET `downloads`=#{downloads} where id=#{appId}
     </update>
 </mapper>

@@ -64,4 +64,19 @@ public interface AppInfoTooMapper {
      */
    int delAppPicture(@Param("appId") Integer appId);
 
+    /**
+     * 审核通过后，修改status
+     * @param appId
+     * @return
+     */
+    int checkApp(@Param("appId") Integer appId,@Param("status") Integer status);
+
+
+    /**
+     * 修改下载次数
+     * @param appId
+     * @return
+     */
+    int downLoadAppVersion(@Param("appId") Integer appId,@Param("downloads") Integer downloads);
+
 }

@@ -58,4 +58,18 @@ public interface AppInfoTooService {
      * @return
      */
     int delAppPicture(Integer appId);
+
+    /**
+     * 审核通过后，修改status
+     * @param appId
+     * @return
+     */
+    int checkApp(Integer appId,Integer status);
+
+    /**
+     * 修改下载次数
+     * @param appId
+     * @return
+     */
+    int downLoadAppVersion(Integer appId,Integer downloads);
 }

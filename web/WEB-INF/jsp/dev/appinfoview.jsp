@@ -15,7 +15,7 @@
       </div>
       <div class="x_content1">
         <form class="form-horizontal form-label-left" >
-          <input type="hidden" name="id" value="${appInfo.id}">
+          <input type="hidden" id="appId" name="appId" value="${appInfo.id}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
@@ -172,7 +172,7 @@
 									<td>${appVersion.versionSize }</td>
 									<td>${appVersion.publishStatusName }</td>
 									<td>
-									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
+									<a onclick="downLoad()" href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
 									</td>
 									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								</tr>

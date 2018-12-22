@@ -34,8 +34,8 @@ public class BackendLoginController {
                           HttpServletRequest request, HttpSession session){
         if (userCode!=null&&userPassword!=null){
             BackendUser backendUser = backendUserService.fingOneBackendUser(userCode,userPassword);
-            DataDictionary dictionary = dataDictionaryService.findOneDictionary(backendUser.getUserType());
             if (backendUser!=null){
+                DataDictionary dictionary = dataDictionaryService.findOneDictionary(backendUser.getUserType());
                 //重定向到主页面
                 session.setAttribute("backendUser",backendUser);
                 session.setAttribute("dictionary",dictionary);

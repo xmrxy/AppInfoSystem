@@ -63,7 +63,7 @@
 									<td>${appVersion.versionSize }</td>
 									<td>${appVersion.publishStatusName }</td>
 									<td>
-									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
+									<a onclick="downLoad()" href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
 									</td>
 									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								</tr>
@@ -132,6 +132,7 @@
 				<input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="attach">
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500m.2、文件类型：apk</span></p>
 			</div>
+                <div style="color: red">${msg}</div>
 			<div id="apkFile"></div>
 			${fileUploadError }
             </div>

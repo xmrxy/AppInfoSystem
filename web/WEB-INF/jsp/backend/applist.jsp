@@ -14,7 +14,7 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<form method="post" action="list">
+				<form method="post" action="/dev/appList.html">
 					<input type="hidden" name="pageIndex" value="1" />
 			    <ul>
 					<li>
@@ -30,14 +30,14 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">所属平台</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select name="queryFlatformId" class="form-control">
-									<c:if test="${flatFormList != null }">
-									   <option value="">--请选择--</option>
-									   <c:forEach var="dataDictionary" items="${flatFormList}">
-									   		<option <c:if test="${dataDictionary.valueId == queryFlatformId }">selected="selected"</c:if>
-									   		value="${dataDictionary.valueId}">${dataDictionary.valueName}</option>
-									   </c:forEach>
-									</c:if>
+								<select id="queryFlatformId" name="queryFlatformId" class="form-control">
+									<%--<c:if test="${flatFormList != null }">--%>
+									   <%--<option value="">--请选择--</option>--%>
+									   <%--<c:forEach var="dataDictionary" items="${flatFormList}">--%>
+									   		<%--<option <c:if test="${dataDictionary.valueId == queryFlatformId }">selected="selected"</c:if>--%>
+									   		<%--value="${dataDictionary.valueId}">${dataDictionary.valueName}</option>--%>
+									   <%--</c:forEach>--%>
+									<%--</c:if>--%>
         						</select>
 							</div>
 						</div>
@@ -47,13 +47,13 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">一级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="queryCategoryLevel1" name="queryCategoryLevel1" class="form-control">
-									<c:if test="${categoryLevel1List != null }">
-									   <option value="">--请选择--</option>
-									   <c:forEach var="appCategory" items="${categoryLevel1List}">
-									   		<option <c:if test="${appCategory.id == queryCategoryLevel1 }">selected="selected"</c:if>
-									   		value="${appCategory.id}">${appCategory.categoryName}</option>
-									   </c:forEach>
-									</c:if>
+									<%--<c:if test="${categoryLevel1List != null }">--%>
+									   <%--<option value="">--请选择--</option>--%>
+									   <%--<c:forEach var="appCategory" items="${categoryLevel1List}">--%>
+									   		<%--<option <c:if test="${appCategory.id == queryCategoryLevel1 }">selected="selected"</c:if>--%>
+									   		<%--value="${appCategory.id}">${appCategory.categoryName}</option>--%>
+									   <%--</c:forEach>--%>
+									<%--</c:if>--%>
         						</select>
 							</div>
 						</div>
@@ -64,13 +64,13 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" name="categorylevel2list" id="categorylevel2list"/>
         						<select name="queryCategoryLevel2" id="queryCategoryLevel2" class="form-control">
-        							<c:if test="${categoryLevel2List != null }">
-									   <option value="">--请选择--</option>
-									   <c:forEach var="appCategory" items="${categoryLevel2List}">
-									   		<option <c:if test="${appCategory.id == queryCategoryLevel2 }">selected="selected"</c:if>
-									   		value="${appCategory.id}">${appCategory.categoryName}</option>
-									   </c:forEach>
-									</c:if>
+        							<%--<c:if test="${categoryLevel2List != null }">--%>
+									   <%--<option value="">--请选择--</option>--%>
+									   <%--<c:forEach var="appCategory" items="${categoryLevel2List}">--%>
+									   		<%--<option <c:if test="${appCategory.id == queryCategoryLevel2 }">selected="selected"</c:if>--%>
+									   		<%--value="${appCategory.id}">${appCategory.categoryName}</option>--%>
+									   <%--</c:forEach>--%>
+									<%--</c:if>--%>
         						</select>
 							</div>
 						</div>
@@ -80,13 +80,13 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">三级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
         						<select name="queryCategoryLevel3" id="queryCategoryLevel3" class="form-control">
-        							<c:if test="${categoryLevel3List != null }">
-									   <option value="">--请选择--</option>
-									   <c:forEach var="appCategory" items="${categoryLevel3List}">
-									   		<option <c:if test="${appCategory.id == queryCategoryLevel3 }">selected="selected"</c:if>
-									   		value="${appCategory.id}">${appCategory.categoryName}</option>
-									   </c:forEach>
-									</c:if>
+        							<%--<c:if test="${categoryLevel3List != null }">--%>
+									   <%--<option value="">--请选择--</option>--%>
+									   <%--<c:forEach var="appCategory" items="${categoryLevel3List}">--%>
+									   		<%--<option <c:if test="${appCategory.id == queryCategoryLevel3 }">selected="selected"</c:if>--%>
+									   		<%--value="${appCategory.id}">${appCategory.categoryName}</option>--%>
+									   <%--</c:forEach>--%>
+									<%--</c:if>--%>
         						</select>
 							</div>
 						</div>
@@ -156,21 +156,22 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="appInfo" items="${appInfoList }" varStatus="status">
+								<c:forEach var="appInfo" items="${appPageBean.list }" varStatus="status">
 									<tr role="row" class="odd">
 										<td tabindex="0" class="sorting_1">${appInfo.softwareName}</td>
 										<td>${appInfo.APKName }</td>
 										<td>${appInfo.softwareSize }</td>
-										<td>${appInfo.flatformName }</td>
-										<td>${appInfo.categoryLevel1Name } -> ${appInfo.categoryLevel2Name } -> ${appInfo.categoryLevel3Name }</td>
-										<td>${appInfo.statusName }</td>
+										<td>${appInfo.valueNamePingTai }</td>
+										<td>${appInfo.categoryName1 } -> ${appInfo.categoryName1 } -> ${appInfo.categoryName1 }</td>
+										<td>${appInfo.valueNameStatus }</td>
 										<td>${appInfo.downloads }</td>
 										<td>${appInfo.versionNo }</td>
 										<td>
 										<button type="button" class="btn btn-default checkApp" 
-											appinfoid="${appInfo.id }" versionid="${appInfo.versionId }" status="${appInfo.status }" 
-											statusname="${appInfo.statusName }"											
+											appinfoid="${appInfo.id }" versionid="${appInfo.versionId }" status="${appInfo.statusId }"
+											statusname="${appInfo.valueNameStatus }"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="查看并审核APP">审核</button>
+											<span style="color: red">${msg}</span>
 										</td>
 									</tr>
 								</c:forEach>
@@ -181,33 +182,33 @@
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="dataTables_info" id="datatable-responsive_info"
-							role="status" aria-live="polite">共${pages.totalCount }条记录
-							${pages.currentPageNo }/${pages.totalPageCount }页</div>
+							role="status" aria-live="polite">共${appPageBean.totalCount }条记录
+							${appPageBean.pageIndex }/${appPageBean.totalPage}页</div>
 					</div>
 					<div class="col-sm-7">
 						<div class="dataTables_paginate paging_simple_numbers"
 							id="datatable-responsive_paginate">
 							<ul class="pagination">
-								<c:if test="${pages.currentPageNo > 1}">
+								<c:if test="${appPageBean.pageIndex > 1}">
 									<li class="paginate_button previous"><a
 										href="javascript:page_nav(document.forms[0],1);"
 										aria-controls="datatable-responsive" data-dt-idx="0"
 										tabindex="0">首页</a>
 									</li>
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo-1});"
+										href="javascript:page_nav(document.forms[0],${appPageBean.pageIndex-1});"
 										aria-controls="datatable-responsive" data-dt-idx="1"
 										tabindex="0">上一页</a>
 									</li>
 								</c:if>
-								<c:if test="${pages.currentPageNo < pages.totalPageCount }">
+								<c:if test="${appPageBean.pageIndex < appPageBean.totalPage }">
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo+1 });"
+										href="javascript:page_nav(document.forms[0],${appPageBean.pageIndex+1 });"
 										aria-controls="datatable-responsive" data-dt-idx="1"
 										tabindex="0">下一页</a>
 									</li>
 									<li class="paginate_button next"><a
-										href="javascript:page_nav(document.forms[0],${pages.totalPageCount });"
+										href="javascript:page_nav(document.forms[0],${appPageBean.pageIndex });"
 										aria-controls="datatable-responsive" data-dt-idx="7"
 										tabindex="0">最后一页</a>
 									</li>

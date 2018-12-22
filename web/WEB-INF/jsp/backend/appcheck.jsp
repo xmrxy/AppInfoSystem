@@ -6,7 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>查看并审核APP信息 <i class="fa fa-user"></i>${userSession.userName}</small></h2>
+        <h2>查看并审核APP信息 <i class="fa fa-user"></i><small>${backendUser.userName}</small></h2>
              <div class="clearfix"></div>
       </div>
       <div class="x_title">
@@ -14,13 +14,13 @@
           <div class="clearfix"></div>
       </div>
       <div class="x_content1">
-        <form class="form-horizontal form-label-left" action="checksave" method="post">
-          <input type="hidden" name="id" value="${appInfo.id}">
+        <form class="form-horizontal form-label-left" action="/backend/doCheckApp.html" method="post">
+          <input type="hidden" name="appId" value="${appInfo.id}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input class="form-control col-md-7 col-xs-12" value="${appInfo.softwareName}" 
+              <input id="name" class="form-control col-md-7 col-xs-12" value="${appInfo.softwareName}"
               type="text" readonly="readonly">
             </div>
           </div>
@@ -53,7 +53,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">软件大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" value="${appInfo.softwareSize}"
+              <input id="number" type="text" value="${appInfo.softwareSize}"
               class="form-control col-md-7 col-xs-12" readonly="readonly">
             </div>
           </div>
@@ -70,7 +70,7 @@
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">所属平台 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" class="form-control col-md-7 col-xs-12" 
+              <input id="select" type="text" class="form-control col-md-7 col-xs-12"
               	value="${appInfo.flatformName}" readonly="readonly">
             
             </div>
@@ -94,7 +94,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">应用简介 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <textarea class="form-control col-md-7 col-xs-12" readonly="readonly"> 
+              <textarea id="textarea" class="form-control col-md-7 col-xs-12" readonly="readonly">
               ${appInfo.appInfo}</textarea>
             </div>
           </div>
@@ -114,8 +114,8 @@
           </div>
         	<div class="form-group">
         		<div class="col-md-6 col-md-offset-3">
-        		<button id="status" type="submit" name="status" value="2" class="btn btn-success">审核通过</button>
-        		<button id="status" type="submit" name="status" value="3" class="btn btn-success">审核不通过</button>
+        		<button type="submit" name="status" value="2" class="btn btn-success">审核通过</button>
+        		<button type="submit" name="status" value="3" class="btn btn-success">审核不通过</button>
           		<button type="button" class="btn btn-primary" id="back">返回</button>
         		</div>
      		</div>

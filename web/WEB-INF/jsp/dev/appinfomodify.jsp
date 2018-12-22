@@ -127,12 +127,12 @@
 				<input id="attach"  type="file" class="form-control col-md-7 col-xs-12" name="attach">
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500k.2、图片格式：jpg、png、jpeg、pneg</span></p>
 				</div>
+              <div style="color: red">${msg}</div>
 				<div id="logoFile"></div>
 				${fileUploadError }
             </div>
           </div>
           <div class="form-group">
-            <div style="color: red">${msg}</div>
             <div class="col-md-6 col-md-offset-3">
             	<c:if test="${appInfo.status == 3}">
             	 	<button id="send" type="submit" name="status" value="1" class="btn btn-success">保存并再次提交审核</button>

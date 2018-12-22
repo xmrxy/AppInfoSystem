@@ -1,7 +1,6 @@
 package com.wu.controller.devController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.wu.pojo.AppInfoToo;
 import com.wu.pojo.AppVersion;
 import com.wu.service.appInfo.AppInfoService;
@@ -9,11 +8,9 @@ import com.wu.service.appInfo.AppInfoTooService;
 import com.wu.service.appVersion.AppVersionService;
 import com.wu.util.PageBean;
 import org.apache.commons.io.FilenameUtils;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -112,10 +109,10 @@ public class DevController {
             //获取文件后缀
             String extension = FilenameUtils.getExtension(oldFileName);
             //判断文件大少
-            int fileSize=3000000;
+            int fileSize=50000;
             if (attach.getSize()<fileSize){
                 //符合文件大少
-                if ("jpg".equals(extension)||"png".equals(extension)||"jpeg".equals(extension)){
+                if ("jpg".equals(extension)||"png".equals(extension)||"jpeg".equals(extension)||"pneg".equals(extension)){
                     //符合文件格式
                     //定义新的文件名
                     String newFileName = System.currentTimeMillis() + new Random().nextInt(1000000) + "."+extension;
@@ -136,7 +133,7 @@ public class DevController {
                     }
                 }else{
                     //不符合文件格式
-                    request.setAttribute("msg","图片格式不正确，要求是.jpg/.png/.jpeg");
+                    request.setAttribute("msg","图片格式不正确，要求是.jpg/.png/.jpeg/.pneg");
                     return "/dev/appinfoadd";
                 }
             }else{
@@ -207,8 +204,52 @@ public class DevController {
     }
 
     @RequestMapping(value = "/doAppSave.html")
-    public String doSaveApp(AppInfoToo appInfoToo, Model model){
-        System.out.println(appInfoToo);
+    public String doSaveApp(AppInfoToo appInfoToo,
+                            @RequestParam(value = "attach") MultipartFile attach,
+                            Model model,HttpServletRequest request){
+        //实现文件上传
+        if(!attach.isEmpty()){
+            //定义上传路径
+            String realPath = request.getSession().getServletContext().getRealPath("/statics/upload/");
+            System.out.println("上传路径："+realPath);
+            //获取文件名
+            String oldFileName = attach.getOriginalFilename();
+            //获取文件后缀
+            String extension = FilenameUtils.getExtension(oldFileName);
+            //判断文件大少
+            int fileSize=50000;
+            if (attach.getSize()<fileSize){
+                //符合文件大少
+                if ("jpg".equals(extension)||"png".equals(extension)||"jpeg".equals(extension)||"pneg".equals(extension)){
+                    //符合文件格式
+                    //定义新的文件名
+                    String newFileName = System.currentTimeMillis() + new Random().nextInt(1000000) + "."+extension;
+                    //创建新的文件
+                    File targetFile=new File(realPath,newFileName);
+                    if (!targetFile.exists()){
+                        //如果文件没有，则创建
+                        targetFile.mkdirs();
+                    }
+                    try {
+                        attach.transferTo(targetFile);
+                        appInfoToo.setLogoPicPath("/statics/upload/"+newFileName);
+                        appInfoToo.setLogoLocPath(realPath+newFileName);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        request.setAttribute("msg","上传失败！");
+                        return "/dev/appinfoadd";
+                    }
+                }else{
+                    //不符合文件格式
+                    request.setAttribute("msg","图片格式不正确，要求是.jpg/.png/.jpeg/.pneg");
+                    return "/dev/appinfoadd";
+                }
+            }else{
+                //不符合文件大少
+                request.setAttribute("msg","图片大少不符合要求！");
+                return "/dev/appinfoadd";
+            }
+        }
         int i = appInfoTooService.updateAppInfo(appInfoToo);
         if (i>0){
             return "redirect:/dev/appList.html";
